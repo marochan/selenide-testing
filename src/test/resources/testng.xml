@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Selenide test suite" parallel="methods" thread-count="2">
+    <test name="SelenideTestClass">
+
+        <classes>
+            <class name="com.selenideTesting.TestClass">
+                <methods >
+                    <include name="openBingAndTypeInput"></include>
+                    <include name="forwardAndBack"></include>
+                    <include name="bingAndClick"></include>
+                    <include name="switchingToAnotherWindowTest"></include>
+                    <include name="webDriverRunnerTest"></include>
+                    <include name="promptTesting"></include>
+                    <include name="alertsTest"></include>
+                    <include name="confirmationAlertAcceptanceTest"></include>
+                    <include name="confirmationAlertDeclineTest"></include>
+                    <include name="promptAcceptanceWithEmptyTest"></include>
+                    <include name="promptAcceptanceWithKeySentTest"></include>
+                    <include name="promptDeclineTest"></include>
+                </methods>
+            </class>
+
+        </classes>
+    </test>
+</suite>
