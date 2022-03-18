@@ -10,13 +10,15 @@
                     <include name="bingAndClick"></include>
                     <include name="switchingToAnotherWindowTest"></include>
                     <include name="webDriverRunnerTest"></include>
-                    <include name="promptTesting"></include>
+                    <include name="authPromptTesting"></include>
                     <include name="alertsTest"></include>
                     <include name="confirmationAlertAcceptanceTest"></include>
                     <include name="confirmationAlertDeclineTest"></include>
-                    <include name="promptAcceptanceWithEmptyTest"></include>
+                    <include name="promptAcceptanceWithEmptyKeysTest"></include>
                     <include name="promptAcceptanceWithKeySentTest"></include>
                     <include name="promptDeclineTest"></include>
+                    <include name="dropDownTest"></include>
+                    <include name="dragAndDropTest"></include>
                 </methods>
             </class>
 

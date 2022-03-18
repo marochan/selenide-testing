@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -21,8 +22,9 @@ public class TestClass {
 
     public long startTime;
     public long endTime;
+
     @BeforeClass(alwaysRun = true)
-    public void start(){
+    public void start() {
         startTime = System.currentTimeMillis();
     }
 
@@ -57,7 +59,6 @@ public class TestClass {
 
     @Test
     public void bingAndClick() throws InterruptedException {
-        Configuration.headless = true;
         open("https://www.bing.com");
         $(By.name("q")).val("Notepad").pressEnter();
         Thread.sleep(2000);
@@ -92,18 +93,11 @@ public class TestClass {
         }
         List<File> files = WebDriverRunner.getBrowserDownloadsFolder().files();
         Assert.assertEquals(files.size(), 10, "Files should not be empty but they are");
-
-        for (File f : files) {
-
-            if (f.canExecute()) {
-                System.out.println("File: " + f.getName() + "can execute");
-            }
-        }
         closeWindow();
     }
 
     @Test
-    public void promptTesting() throws InterruptedException{
+    public void authPromptTesting() throws InterruptedException {
         open("https://the-internet.herokuapp.com/basic_auth",
                 "", "admin", "admin");
         Thread.sleep(2000);
@@ -118,7 +112,7 @@ public class TestClass {
     }
 
     @Test
-    public void alertsTest(){
+    public void alertsTest() {
         open("https://the-internet.herokuapp.com/");
         $(By.xpath("//a[text()=\"JavaScript Alerts\"]")).click();
         $(By.xpath("//button[text()=\"Click for JS Alert\"]")).click();
@@ -133,7 +127,7 @@ public class TestClass {
     }
 
     @Test
-    public void confirmationAlertAcceptanceTest(){
+    public void confirmationAlertAcceptanceTest() {
         open("https://the-internet.herokuapp.com/");
         $(By.xpath("//a[text()=\"JavaScript Alerts\"]")).click();
         $(By.xpath("//button[text()=\"Click for JS Confirm\"]")).click();
@@ -150,7 +144,7 @@ public class TestClass {
     }
 
     @Test
-    public void confirmationAlertDeclineTest(){
+    public void confirmationAlertDeclineTest() {
         open("https://the-internet.herokuapp.com/");
         $(By.xpath("//a[text()=\"JavaScript Alerts\"]")).click();
         $(By.xpath("//button[text()=\"Click for JS Confirm\"]")).click();
@@ -167,7 +161,7 @@ public class TestClass {
     }
 
     @Test
-    public void promptAcceptanceWithEmptyTest(){
+    public void promptAcceptanceWithEmptyKeysTest() {
         open("https://the-internet.herokuapp.com/");
         $(By.xpath("//a[text()=\"JavaScript Alerts\"]")).click();
         $(By.xpath("//button[text()=\"Click for JS Prompt\"]")).click();
@@ -202,12 +196,12 @@ public class TestClass {
         alert.accept();
         String acceptanceConfirmation = $(By.cssSelector("#result")).getText();
         System.out.println(acceptanceConfirmation);
-        softAssert.assertEquals(acceptanceConfirmation, "You entered: something" , "The paragraph should contain message of success but it doesn't");
+        softAssert.assertEquals(acceptanceConfirmation, "You entered: something", "The paragraph should contain message of success but it doesn't");
 
     }
 
     @Test
-    public void promptDeclineTest(){
+    public void promptDeclineTest() {
         open("https://the-internet.herokuapp.com/");
         $(By.xpath("//a[text()=\"JavaScript Alerts\"]")).click();
         $(By.xpath("//button[text()=\"Click for JS Prompt\"]")).click();
@@ -225,10 +219,41 @@ public class TestClass {
 
     }
 
+    @Test
+    public void dropDownTest() throws InterruptedException {
+        open("https://www.globalsqa.com/demo-site/select-dropdown-menu/");
+        SelenideElement dropDown = $("select");
+        dropDown.selectOption("Canada");
+        Thread.sleep(2000);
+        dropDown.selectOption(45);
+        Thread.sleep(2000);
+        dropDown.selectOptionByValue("MEX");
+        Thread.sleep(2000);
+    }
+
+    @Test
+    public void dragAndDropTest() throws InterruptedException {
+        open("https://www.globalsqa.com/demo-site/draganddrop/");
+        WebDriverRunner.getWebDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        $(By.id("Accepted Elements")).click();
+        switchTo().frame($(By.xpath("//*[@id=\"post-2669\"]/div[2]/div/div/div[2]/p/iframe")));
+        switchTo().activeElement();
+        SelenideElement pictureOne = $(By.id("draggable"));
+
+
+        SelenideElement droppable = $("#droppable");
+        System.out.println(droppable.getText());
+        actions().clickAndHold(pictureOne).moveToElement(droppable).release().build().perform();
+        switchTo().defaultContent();
+        $(By.id("Photo Manager")).click();
+        Thread.sleep(2000);
+        closeWindow();
+    }
+
     @AfterClass(alwaysRun = true)
-    public void endTime(){
+    public void endTime() {
         endTime = System.currentTimeMillis();
-        long totalTime = (endTime - startTime)/1000;
+        long totalTime = (endTime - startTime) / 1000;
         System.out.println("Time of execution of the test suite: " + totalTime);
     }
 }
