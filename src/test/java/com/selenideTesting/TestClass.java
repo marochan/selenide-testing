@@ -32,10 +32,12 @@ public class TestClass {
     public void openBingAndTypeInput() {
         Configuration.headless = true;
         open("https://www.bing.com");
+        String title = title();
+        Assert.assertEquals(title, "Bing");
         SelenideElement queryBlock = $(By.name("q"));
         queryBlock.should(Condition.appear);
         queryBlock.sendKeys("Notepad");
-        System.out.println(title());
+        Assert.assertEquals(title(), "Notepad - Wyszukaj");
 
     }
 
@@ -45,13 +47,13 @@ public class TestClass {
         open("https://www.bing.com");
         $(By.name("q")).val("Notepad").pressEnter();
         Thread.sleep(2000);
-        System.out.println(title());
+        Assert.assertEquals(title(), "Notepad - Wyszukaj");
         back();
         Thread.sleep(2000);
-        System.out.println(title());
+        Assert.assertEquals(title(), "Bing");
         forward();
         Thread.sleep(2000);
-        System.out.println(title());
+        Assert.assertEquals(title(), "Notepad - Wyszukaj");
         refresh();
 
 
@@ -63,7 +65,7 @@ public class TestClass {
         $(By.name("q")).val("Notepad").pressEnter();
         Thread.sleep(2000);
         $(By.xpath("//*[@id=\"b-scopeListItem-images\"]/a")).click();
-        System.out.println(title());
+        Assert.assertEquals(title(), "Notepad - Bing Images");
         Thread.sleep(5000);
     }
 
@@ -76,6 +78,7 @@ public class TestClass {
         linkedIn.hover();
         Thread.sleep(4000);
         linkedIn.click();
+        Assert.assertEquals(title(), "Grid Dynamics: digital transformation at enterprise scale");
         switchTo().window(1);
         Thread.sleep(5000);
         closeWindow();
@@ -224,10 +227,13 @@ public class TestClass {
         open("https://www.globalsqa.com/demo-site/select-dropdown-menu/");
         SelenideElement dropDown = $("select");
         dropDown.selectOption("Canada");
+        Assert.assertEquals(dropDown.getText(), "Canada");
         Thread.sleep(2000);
         dropDown.selectOption(45);
+        Assert.assertEquals(dropDown.getText(), "China");
         Thread.sleep(2000);
         dropDown.selectOptionByValue("MEX");
+        Assert.assertEquals(dropDown.getText(), "Mexico");
         Thread.sleep(2000);
     }
 
